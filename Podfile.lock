@@ -1,0 +1,29 @@
+PODS:
+  - Alamofire (5.6.2)
+  - AlamofireImage (4.2.0):
+    - Alamofire (~> 5.4)
+  - Nimble (10.0.0)
+  - Quick (5.0.1)
+
+DEPENDENCIES:
+  - Alamofire (~> 5.6.1)
+  - AlamofireImage (~> 4.1)
+  - Nimble
+  - Quick
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - AlamofireImage
+    - Nimble
+    - Quick
+
+SPEC CHECKSUMS:
+  Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  AlamofireImage: 34a2d90b0e5fe6a5605f85ae4b7b01e784c60192
+  Nimble: 5316ef81a170ce87baf72dd961f22f89a602ff84
+  Quick: 749aa754fd1e7d984f2000fe051e18a3a9809179
+
+PODFILE CHECKSUM: 1fc18b1fba3f21df50a78570d3816bf62e26e3db
+
+COCOAPODS: 1.11.3

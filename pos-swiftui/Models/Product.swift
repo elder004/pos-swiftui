@@ -18,6 +18,7 @@ struct Product: Decodable {
     var productImage: String?
     var nextDayDelivery: Bool?
     var USPs: [String]?
+    var coolbluesChoiceInformationTitle: String?
     var reviewInformation: ReviewInformation?
 }
 

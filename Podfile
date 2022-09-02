@@ -14,6 +14,7 @@ target 'pos-swiftui' do
     # Pods for testing
     pod 'Quick'
     pod 'Nimble'
+    pod 'ViewInspector'
   end
 
   target 'pos-swiftuiUITests' do

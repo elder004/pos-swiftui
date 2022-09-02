@@ -14,9 +14,20 @@ struct InfinityLeading: ViewModifier{
     }
 }
 
+struct InfinityTrailing: ViewModifier{
+    
+    func body(content: Content) -> some View {
+        content.frame(maxWidth: .infinity, alignment: .trailing)
+    }
+}
+
 extension View {
     
     func infinityLeading() -> some View{
         modifier(InfinityLeading())
+    }
+    
+    func infinityTrailing() -> some View{
+        modifier(InfinityTrailing())
     }
 }

@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ProductListView: View {
     
     @ObservedObject var viewModel: ProductListViewModel = ProductListViewModel()
+    
+    private var cancelBag = Set<AnyCancellable>()
     
     var body: some View {
     
@@ -18,37 +21,51 @@ struct ProductListView: View {
                 if viewModel.products.count > 0 {
                     List(viewModel.products.indices, id: \.self) { index in
                         NavigationLink(
-                            destination: ProductListView()) {
+                            destination: ProductDetailView(product: viewModel.products[index])) {
                                 productRow(product: viewModel.products[index])
                         }
                             .onAppear {
-                                //TODO fetch more when last appears
+                                if(index == viewModel.products.count - 1){
+                                    viewModel.lastVisibleRow.send(index)
+                                }
                             }
                     }
-                } else {
+                } else if !viewModel.isLoading{
                     Text("No products found.")
                 }
+                if(viewModel.isLoading){
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                }
             }
-            .navigationBarTitleDisplayMode(.inline)
+            .alert(viewModel.errorMessage, isPresented: $viewModel.showError) {
+                Button("Try again", role: .cancel) {
+                    viewModel.showError = false
+                    viewModel.loadProducts()
+                }
+            }
             .navigationTitle("Products")
+        }
+        .onAppear {
+            viewModel.loadProducts()
         }
     }
     
     func productRow(product: Product) -> some View {
         
         VStack{
-            HStack{
-                AsyncImage(url: URL(string: product.productImage ?? "")){ image in
-                    image
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 100)
-                    } placeholder: {
-                        Color.gray.opacity(0.1)
-                    }.frame(width: 80, height: 100)
-                VStack {
-                Text(product.productName ?? "")
-                    .infinityLeading()
+            HStack(alignment: .top){
+                ThumbView(url: product.productImage ?? "", width: 80, height: 100)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(product.productName ?? "")
+                        .title()
+                        .infinityLeading()
+                    Text(product.salesPriceIncVat?.asCurrency() ?? "")
+                        .money()
+                        .infinityLeading()
+                }
+                if let rating = product.reviewInformation?.reviewSummary?.reviewAverage{
+                    RatingView(rating: rating)
                 }
             }
         }

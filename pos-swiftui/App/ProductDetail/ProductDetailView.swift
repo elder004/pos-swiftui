@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct ProductDetailView: View {
-    
-    var scale: GestureState = .init(initialValue: 1.0)
-    
+        
     var product: Product
     
     init(product: Product){

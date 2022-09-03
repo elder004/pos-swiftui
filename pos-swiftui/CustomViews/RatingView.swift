@@ -20,9 +20,11 @@ struct RatingView: View {
         HStack{
             Text(rating.asRating() ?? "")
                 .rating()
+                .tag("textRating")
         }
         .padding(4)
         .background(Functions.getColorForRating(rating: rating))
+        .tag("ratingViewStack")
     }
 }
 

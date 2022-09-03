@@ -6,6 +6,9 @@
 //
 
 import XCTest
+import Quick
+import Nimble
+
 @testable import pos_swiftui
 
 class pos_swiftuiTests: XCTestCase {

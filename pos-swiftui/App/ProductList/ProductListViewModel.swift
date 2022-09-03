@@ -10,20 +10,24 @@ import Combine
 
 class ProductListViewModel: ObservableObject{
     
-    @Published private(set) var products: [Product] = []
+    @Published var products: [Product] = []
     @Published var isLoading = true
     @Published var errorMessage = String()
     @Published var showError = false
     
     let lastVisibleRow: PassthroughSubject<Int, Never> = .init()
     
-    let api = API()
+    let api: APIProtocol
+    
     var page = 1
     var totalPages = 1
     
     private var cancelBag = Set<AnyCancellable>()
     
-    init(){
+    init(api: APIProtocol = API()){
+        
+        self.api = api
+        
         lastVisibleRow
             .debounce(for: 0.5, scheduler: DispatchQueue.main)
             .sink(receiveValue: {[weak self] value in

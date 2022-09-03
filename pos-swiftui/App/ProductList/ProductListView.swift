@@ -10,9 +10,13 @@ import Combine
 
 struct ProductListView: View {
     
-    @ObservedObject var viewModel: ProductListViewModel = ProductListViewModel()
+    @ObservedObject var viewModel: ProductListViewModel
     
     private var cancelBag = Set<AnyCancellable>()
+    
+    init(viewModel: ProductListViewModel = ProductListViewModel()){
+        self.viewModel = viewModel
+    }
     
     var body: some View {
     
@@ -29,9 +33,10 @@ struct ProductListView: View {
                                     viewModel.lastVisibleRow.send(index)
                                 }
                             }
-                    }
+                    }.tag("productList")
                 } else if !viewModel.isLoading{
                     Text("No products found.")
+                        .tag("textNotFound")
                 }
                 if(viewModel.isLoading){
                     ProgressView()
@@ -60,12 +65,15 @@ struct ProductListView: View {
                     Text(product.productName ?? "")
                         .title()
                         .infinityLeading()
+                        .tag("textProductName")
                     Text(product.salesPriceIncVat?.asCurrency() ?? "")
                         .money()
                         .infinityLeading()
+                        .tag("textProductPrice")
                 }
                 if let rating = product.reviewInformation?.reviewSummary?.reviewAverage{
                     RatingView(rating: rating)
+                        .tag("productRating")
                 }
             }
         }

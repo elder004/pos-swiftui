@@ -8,7 +8,12 @@
 import Foundation
 import Alamofire
 
-class API {
+protocol APIProtocol{
+    
+    func getProducts(page: Int, completion: @escaping (_ error: String?, _ result: ProductsResult?) -> ())
+}
+
+class API: APIProtocol {
     
     func getProducts(page: Int = 1, completion: @escaping (_ error: String?, _ result: ProductsResult?) -> ()){
         
